@@ -3,13 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ThreeService {
   public renderer = new THREE.WebGLRenderer({ antialias: true });
-
-  // scene
-  // camera
-  // lighting
-  // object
-  //  shape define
-  //  texture
+  
 
   constructor() { }
 
@@ -23,7 +17,7 @@ export class ThreeService {
       model = this.createSphere();
     } else if (type === 'torus') {
       model = this.createTorus();
-    } else {
+    } else if (type === 'cube') {
       model = this.createBox();
     }
     return model;
@@ -45,9 +39,12 @@ export class ThreeService {
   }
 
   createBox() {
+    var texture = new THREE.TextureLoader().load( '../../assets/textures/crate.gif' )
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
     let box = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshNormalMaterial()
+      geometry,
+      material
     );
     box.material.shading = THREE.FlatShading;
     box.position.z = 0.5;
